@@ -1,5 +1,5 @@
 CXX := g++
-CXXFLAGS := -std=c++17 -Wall -Wextra -I./Pieces
+CXXFLAGS := -std=c++20 -Wall -Wextra -I./Pieces
 SRC := $(wildcard *.cpp) $(wildcard Pieces/*.cpp)
 OBJ := $(SRC:.cpp=.o)
 TARGET := chess

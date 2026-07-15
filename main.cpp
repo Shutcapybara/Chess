@@ -1,13 +1,22 @@
 #include <iostream>
-#include "rook.h"
+#include <vector>
+#include <memory>
+#include "Pieces/rook.h"
 
 int main() {
-    Rook rook('A', '1');
-    rook.createPossibleMoves(nullptr);
+    Rook rook('C', '5');
+
+    std::vector<std::vector<std::unique_ptr<Piece>>> gameBoard(8);
+    for (auto& row : gameBoard) {
+        row.resize(8);
+    }
+
+    rook.createPossibleMoves(gameBoard);
 
     std::cout << "Rook at " << rook.getLocation() << " (" << rook.getNotation() << ") moves:\n";
-    for (const auto& move : rook.getPossibleMoves()) {
-        std::cout << move << '\n';
+
+    for (auto& move : rook.getPossibleMoves()) {
+        std::cout << move.toString() << '\n';
     }
 
     return 0;

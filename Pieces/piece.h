@@ -12,7 +12,7 @@ protected:
     Position position;
     // eg K - King
     char key;
-    std::vector<std::string> possibleMoves;
+    std::vector<Position> possibleMoves;
 
     char colour;
 public:
@@ -20,16 +20,16 @@ public:
     // Destructer
     virtual ~Piece() {}
     
-    virtual void createPossibleMoves(Piece* board[8][8]) = 0; 
+    virtual void createPossibleMoves(const std::vector<std::vector<std::unique_ptr<Piece>>>& gameBoard) = 0; 
 
-    std::vector<std::string> getPossibleMoves() {
+    std::vector<Position> getPossibleMoves() {
         return possibleMoves;
     }
 
     std::string getLocation() {
         return position.toString();
     }
-
+    /*
     void move(Position newPosition) {
         if (std::find(possibleMoves.begin(), possibleMoves.end(), newPosition.toString()) != possibleMoves.end()) {
             position = newPosition;
@@ -38,6 +38,7 @@ public:
             throw std::invalid_argument("Invalid move" + std::string(1, key) + " from " + position.toString() + " to " + newPosition.toString());
         }
     }
+        */
 
     std::string getNotation() {
         return std::string(1, key) + position.toString();

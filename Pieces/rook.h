@@ -1,5 +1,6 @@
 #include "piece.h"
 #include <string>
+#include <memory>
 class Rook : public Piece {
 private:
     void pathBlocked()
@@ -8,27 +9,49 @@ private:
     }
 
 public:
-    Rook(char file, char rank) {
+    Rook(Position StartPos) {
         key = 'R';
-        position = Position(file, rank);
+        position = StartPos;
     }
 
-    void createPossibleMoves(Piece* board[8][8]) override {
+    void createPossibleMoves(const std::vector<std::vector<std::unique_ptr<Piece>>>& gameBoard) override {
         possibleMoves.clear();
-        // Above Horizontal moves
-        for (char f = position.file; f <= 'H'; ++f) {
-            if (f != position.file) {
-                possibleMoves.push_back(std::string(1, f) + position.rank);
+        int fileIndex = static_cast<int>(position.file) - 'A';
+        int rankIndex = position.rank - '1';
+        
+        // adds all valid moves to the left of current piece
+        for (int f = fileIndex-1; f >= 0; --f) {
+            possibleMoves.push_back(Position(static_cast<char>(f + 'A'), position.rank));
+            if (gameBoard[f][rankIndex] != nullptr) {
+                break;
             }
+        }
 
+        // adds all valid moves to the right of current piece
+        for (int f = fileIndex+1; f < gameBoard[0].size(); ++f) {
+            possibleMoves.push_back(Position(static_cast<char>(f + 'A'), position.rank));
+            if (gameBoard[f][rankIndex] != nullptr) {
+                break;
+            }
+        }
+        
+        for (int r = rankIndex-1; r >= 0; --r) {
+            possibleMoves.push_back(Position(position.file, static_cast<char>('1' + r)));
+            if (gameBoard[fileIndex][r] != nullptr) {
+                break;
+            }
         }
 
         // Vertical moves
-        for (char r = '1'; r <= '8'; ++r) {
-            if (r != position.rank) {
-                possibleMoves.push_back(std::string(1, position.file) + r);
+        for (int r = rankIndex+1; r < gameBoard.size(); ++r) {
+            possibleMoves.push_back(Position(position.file, static_cast<char>('1' + r)));
+            if (gameBoard[fileIndex][r] != nullptr) {
+                break;
             }
         }
+
+
+
     }
 
 };
