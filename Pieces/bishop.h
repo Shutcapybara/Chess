@@ -1,7 +1,7 @@
 #include "piece.h"
 #include <string>
 #include <memory>
-class Rook : public Piece {
+class Bishop : public Piece {
 private:
 
     void addMovesInDirection(
@@ -39,8 +39,8 @@ private:
     }
 
 public:
-    Rook(Position StartPos, bool _isWhite) {
-        key = 'R';
+    Bishop(Position StartPos, bool _isWhite) {
+        key = 'B';
         position = StartPos;
         isWhite = _isWhite;
     }
@@ -51,10 +51,11 @@ public:
         int fileIndex = position.file - 'a';
         int rankIndex = position.rank - '1';
 
-        addMovesInDirection(gameBoard, fileIndex, rankIndex, 1, 0);  // right
-        addMovesInDirection(gameBoard, fileIndex, rankIndex, -1, 0); // left
-        addMovesInDirection(gameBoard, fileIndex, rankIndex, 0, 1);  // up
-        addMovesInDirection(gameBoard, fileIndex, rankIndex, 0, -1); // down
+        addMovesInDirection(gameBoard, fileIndex, rankIndex, 1, 1); 
+        addMovesInDirection(gameBoard, fileIndex, rankIndex, 1, -1);
+        addMovesInDirection(gameBoard, fileIndex, rankIndex, -1, 1);  
+        addMovesInDirection(gameBoard, fileIndex, rankIndex, -1, -1);
+    
     }
 
 };

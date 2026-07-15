@@ -1,0 +1,8 @@
+{
+    "testMate.cpp.test.advancedExecutables": [
+        {
+            "pattern": "${workspaceFolder}/test_runner",
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

@@ -7,7 +7,7 @@
 #pragma once
 class Piece {
 protected:
-    // eg E4
+    // eg e4
     Position position;
     // eg K - King
     char key;
@@ -26,8 +26,8 @@ public:
         return possibleMoves;
     }
 
-    std::string getLocation() {
-        return position.toString();
+    Position getPosition() {
+        return position;
     }
     /*
     void move(Position newPosition) {
