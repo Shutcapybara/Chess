@@ -5,7 +5,8 @@
 #include <stdexcept>
 #include "position.h"
 #pragma once
-class Piece {
+class Piece
+{
 protected:
     // eg e4
     Position position;
@@ -14,21 +15,37 @@ protected:
     std::vector<Position> possibleMoves;
 
     char colour;
+
 public:
     bool isWhite;
-    
+
     // Destructer
     virtual ~Piece() {}
-    
-    virtual void createPossibleMoves(const std::vector<std::vector<std::unique_ptr<Piece>>>& gameBoard) = 0; 
 
-    std::vector<Position> getPossibleMoves() {
+    virtual void createPossibleMoves(const std::vector<std::vector<std::unique_ptr<Piece>>> &gameBoard) = 0;
+
+    std::vector<Position> getPossibleMoves()
+    {
         return possibleMoves;
     }
 
-    Position getPosition() {
+    Position getPosition()
+    {
         return position;
     }
+
+    bool canMoveTo(Position newPos)
+    {
+        auto it = std::find(possibleMoves.begin(), possibleMoves.end(), newPos);
+        if (it != possibleMoves.end())
+        {
+            position = newPos;
+            return true;
+        }
+        return false;
+    }
+
+
     /*
     void move(Position newPosition) {
         if (std::find(possibleMoves.begin(), possibleMoves.end(), newPosition.toString()) != possibleMoves.end()) {
@@ -40,15 +57,13 @@ public:
     }
         */
 
-    std::string getNotation() {
+    std::string getNotation()
+    {
         return std::string(1, key) + position.toString();
     }
 
-    char getColour() {
+    char getColour()
+    {
         return colour;
     }
-
-
-
-
 };

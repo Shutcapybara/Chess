@@ -56,7 +56,6 @@ TEST_CASE("Differnt Position test")
 
 }
 
-
 TEST_CASE("Position ToString Valid")
 {
     Position pos = Position('a','1');
