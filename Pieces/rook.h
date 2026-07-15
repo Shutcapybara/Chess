@@ -3,55 +3,63 @@
 #include <memory>
 class Rook : public Piece {
 private:
-    void pathBlocked()
+
+    void addMovesInDirection(
+    const std::vector<std::vector<std::unique_ptr<Piece>>>& gameBoard,
+    int file,
+    int rank,
+    int fileDirection,
+    int rankDirection) 
     {
-        
+        int newFile = file + fileDirection;
+        int newRank = rank + rankDirection;
+
+        // while in bounds 
+        while (newFile >= 0 && newFile < gameBoard.size() && newRank >= 0 && newRank < gameBoard[0].size()) 
+        {
+            // if there isn't a peice there 
+            if (gameBoard[newFile][newRank] != nullptr) {
+                // if its the other colours peice we can take it 
+                if (gameBoard[newFile][newRank]->isWhite != isWhite) {
+                    possibleMoves.push_back(
+                        Position(
+                            static_cast<char>('A' + newFile),
+                            static_cast<char>('1' + newRank)
+                        )
+                    );
+                }
+                break;                        
+            }
+
+            possibleMoves.push_back(
+                Position(
+                    static_cast<char>('A' + newFile),
+                    static_cast<char>('1' + newRank)
+                )
+            );
+
+            newFile += fileDirection;
+            newRank += rankDirection;
+        }
     }
 
 public:
-    Rook(Position StartPos) {
+    Rook(Position StartPos, bool _isWhite) {
         key = 'R';
         position = StartPos;
+        isWhite = _isWhite;
     }
 
-    void createPossibleMoves(const std::vector<std::vector<std::unique_ptr<Piece>>>& gameBoard) override {
+    void createPossibleMoves(const std::vector<std::vector<std::unique_ptr<Piece>>>& gameBoard) override 
+    {
         possibleMoves.clear();
-        int fileIndex = static_cast<int>(position.file) - 'A';
+        int fileIndex = position.file - 'A';
         int rankIndex = position.rank - '1';
-        
-        // adds all valid moves to the left of current piece
-        for (int f = fileIndex-1; f >= 0; --f) {
-            possibleMoves.push_back(Position(static_cast<char>(f + 'A'), position.rank));
-            if (gameBoard[f][rankIndex] != nullptr) {
-                break;
-            }
-        }
 
-        // adds all valid moves to the right of current piece
-        for (int f = fileIndex+1; f < gameBoard[0].size(); ++f) {
-            possibleMoves.push_back(Position(static_cast<char>(f + 'A'), position.rank));
-            if (gameBoard[f][rankIndex] != nullptr) {
-                break;
-            }
-        }
-        
-        for (int r = rankIndex-1; r >= 0; --r) {
-            possibleMoves.push_back(Position(position.file, static_cast<char>('1' + r)));
-            if (gameBoard[fileIndex][r] != nullptr) {
-                break;
-            }
-        }
-
-        // Vertical moves
-        for (int r = rankIndex+1; r < gameBoard.size(); ++r) {
-            possibleMoves.push_back(Position(position.file, static_cast<char>('1' + r)));
-            if (gameBoard[fileIndex][r] != nullptr) {
-                break;
-            }
-        }
-
-
-
+        addMovesInDirection(gameBoard, fileIndex, rankIndex, 1, 0);  // right
+        addMovesInDirection(gameBoard, fileIndex, rankIndex, -1, 0); // left
+        addMovesInDirection(gameBoard, fileIndex, rankIndex, 0, 1);  // up
+        addMovesInDirection(gameBoard, fileIndex, rankIndex, 0, -1); // down
     }
 
 };

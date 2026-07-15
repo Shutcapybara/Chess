@@ -8,7 +8,6 @@
 class Piece {
 protected:
     // eg E4
-    bool isWhite;
     Position position;
     // eg K - King
     char key;
@@ -16,6 +15,7 @@ protected:
 
     char colour;
 public:
+    bool isWhite;
     
     // Destructer
     virtual ~Piece() {}
